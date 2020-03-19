@@ -155,13 +155,24 @@ spec:
       dnsPolicy: Default
       volumes:
         - name: config-volume
-          configMap:
-            name: coredns
-            items:
-            - key: Corefile
-              path: Corefile
-            - key: NodeHosts
-              path: NodeHosts
+          hostPath:
+            path: /etc/coredns
+            type: DirectoryOrCreate
+        - name: corefile
+          hostPath:
+            path: /etc/coredns/Corefile
+            type: FileOrCreate
+        - name: nodehosts
+          hostPath:
+            path: /etc/coredns/NodeHosts
+            type: FileOrCreate
+          # configMap:
+          #   name: coredns
+          #   items:
+          #   - key: Corefile
+          #     path: Corefile
+          #   - key: NodeHosts
+          #     path: NodeHosts
 ---
 apiVersion: v1
 kind: Service
